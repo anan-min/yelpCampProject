@@ -6,12 +6,14 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
 const flash = require("connect-flash");
-const campgrounds = require("./routes/campgrounds");
-const reviews = require("./routes/reviews");
+const campgroundsRoutes = require("./routes/campgrounds");
+const reviewsRoutes = require("./routes/review");
+const userRoutes = require("./routes/user");
 
-
-
-
+// passport
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user");
 
 mongoose.connect("mongodb://localhost:27017/yelp-camp");
 const db = mongoose.connection;
@@ -28,7 +30,7 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(flash());
+
 const sessionConfig = {
   secret: "thisshouldbeabettersecret",
   resave: false,
@@ -41,17 +43,39 @@ const sessionConfig = {
 };
 
 app.use(session(sessionConfig));
+app.use(flash());
+
+/**
+ * passport
+ * - sessoin should come before passport.sesion
+ * - authenticate and deserializeUser are added auto by passport
+ */
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
 
-app.use("/campgrounds", campgrounds);
-app.use("/campgrounds/:id/reviews", reviews);
+app.get("/fakeUser", async (req, res) => {
+  const user = new User({
+    email: "nut999anan@gmail.com",
+    username: "nut999anan",
+  });
+  const newUser = await User.register(user, "nut12bodin");
+  res.send(newUser);
+});
+
+app.use("/campgrounds", campgroundsRoutes);
+app.use("/campgrounds/:id/reviews", reviewsRoutes);
+app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("users/register");
 });
 
 app.all("*", (req, res, next) => {

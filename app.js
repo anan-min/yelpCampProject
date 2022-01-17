@@ -6,9 +6,12 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
 const flash = require("connect-flash");
-
 const campgrounds = require("./routes/campgrounds");
 const reviews = require("./routes/reviews");
+
+
+
+
 
 mongoose.connect("mongodb://localhost:27017/yelp-camp");
 const db = mongoose.connection;

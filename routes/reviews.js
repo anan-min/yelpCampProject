@@ -27,6 +27,7 @@ router.post(
     campground.reviews.push(newReview);
     await newReview.save();
     await campground.save();
+    req.flash("success", "review created");
     res.redirect(`/campgrounds/${campground.id}`);
   })
 );

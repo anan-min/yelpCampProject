@@ -36,7 +36,10 @@ router.get(
     const campground = await Campground.findById(req.params.id).populate(
       "reviews"
     );
-    console.log(campground.reviews);
+    if (!campground) {
+      req.flash("error", "Campground does not exist");
+      res.redirect("/campgrounds");
+    }
     res.render("campgrounds/show", { campground });
   })
 );
@@ -45,6 +48,10 @@ router.get(
   "/:id/edit",
   catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
+    if (!campground) {
+      req.flash("error", "Campground does not exist");
+      res.redirect("/campgrounds");
+    }
     res.render("campgrounds/edit", { campground });
   })
 );
@@ -57,6 +64,7 @@ router.post(
     //   throw new ExpressError("Invalid Campground data", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
+    req.flash("success", "Successfully create new campground");
     res.redirect(`campgrounds/${campground._id}`);
   })
 );
@@ -69,6 +77,7 @@ router.put(
     const campground = await Campground.findByIdAndUpdate(id, {
       ...req.body.campground,
     });
+    req.flash("success", "Successfully update  campground");
     res.redirect(`/campgrounds/${campground.id}`);
   })
 );

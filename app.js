@@ -53,29 +53,32 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+  // console.log(req.session);
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
 
-app.get("/fakeUser", async (req, res) => {
-  const user = new User({
-    email: "nut999anan@gmail.com",
-    username: "nut999anan",
-  });
-  const newUser = await User.register(user, "nut12bodin");
-  res.send(newUser);
-});
+// app.get("/fakeUser", async (req, res) => {
+//   const user = new User({
+//     email: "nut999anan@gmail.com",
+//     username: "nut999anan"
+//   });
+//   const newUser = await User.register(user, "nut12bodin");
+//   res.send(newUser);
+// });
 
 app.use("/campgrounds", campgroundsRoutes);
 app.use("/campgrounds/:id/reviews", reviewsRoutes);
 app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
-  res.render("users/register");
+  res.render("home");
 });
 
 app.all("*", (req, res, next) => {

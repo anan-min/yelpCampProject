@@ -1,29 +1,19 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
-const { reviewSchema } = require("../schemas");
 const Campground = require("../models/campground");
 const Review = require("../models/review");
-
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");
 
 router.post(
   "/",
   validateReview,
+  isLoggedIn,
   catchAsync(async (req, res) => {
-    // create review from the form and add to the review db
     const { id } = req.params;
     const campground = await Campground.findById(id);
     const newReview = new Review(req.body.review);
+    newReview.author = req.user._id;
     campground.reviews.push(newReview);
     await newReview.save();
     await campground.save();
@@ -34,6 +24,8 @@ router.post(
 
 router.delete(
   "/:reviewId",
+  isLoggedIn,
+  isReviewAuthor,
   catchAsync(async (req, res) => {
     // console.log("Delete request recieved");
     // should I add the mongoose middleware there

@@ -36,6 +36,7 @@ function randomCamp() {
     location: `${randomLocation.city}, ${randomLocation.state}`,
     title: `${sample(descriptors)} ${sample(places)}`,
     img: "https://source.unsplash.com/collection/483251",
+    author: "61e634cc37c28063472ed11e",
     description: `  Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam ea iusto,
     laborum odit minus cumque delectus sint similique excepturi optio ullam eius
     enim qui voluptatem quaerat tempora atque sit. Animi. Laborum sed

@@ -38,11 +38,11 @@ function randomCamp() {
     title: `${sample(descriptors)} ${sample(places)}`,
     images: [
       {
-        filename: "default-img",
+        filename: "default-img1",
         url: "https://source.unsplash.com/collection/483251",
       },
       {
-        filename: "default-img",
+        filename: "default-img2",
         url: "https://source.unsplash.com/collection/483251",
       },
     ],

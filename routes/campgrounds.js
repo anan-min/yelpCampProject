@@ -4,21 +4,21 @@ const catchAsync = require("../utils/catchAsync");
 const Campground = require("../models/campground");
 const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
 
-const campground = require("../controllers/campgrounds");
+const campgrounds = require("../controllers/campgrounds");
 /**
  * render campground index which shows all campgrounds available
  */
-router.get("/", catchAsync(campground.index));
+router.get("/", catchAsync(campgrounds.index));
 
 /**
  * render page for creating new campground
  */
-router.get("/new", isLoggedIn, catchAsync(campground.renderNewForm));
+router.get("/new", isLoggedIn, catchAsync(campgrounds.renderNewForm));
 
 /**
  * render show page of the campground with the specific id
  */
-router.get("/:id", catchAsync(campground.renderShowPage));
+router.get("/:id", catchAsync(campgrounds.renderShowPage));
 
 /**
  * render the edit page for the campground for the specific id if exist
@@ -27,7 +27,7 @@ router.get(
   "/:id/edit",
   isLoggedIn,
   isAuthor,
-  catchAsync(campground.renderEditForm)
+  catchAsync(campgrounds.renderEditForm)
 );
 
 /**
@@ -37,7 +37,7 @@ router.post(
   "/",
   isLoggedIn,
   validateCampground,
-  catchAsync(campground.createCampground)
+  catchAsync(campgrounds.createCampground)
 );
 
 /**
@@ -48,7 +48,7 @@ router.put(
   isLoggedIn,
   isAuthor,
   validateCampground,
-  catchAsync(campground.updateCampground)
+  catchAsync(campgrounds.updateCampground)
 );
 
 /**
@@ -58,7 +58,7 @@ router.delete(
   "/:id",
   isLoggedIn,
   isAuthor,
-  catchAsync(campground.deleteCampground)
+  catchAsync(campgrounds.deleteCampground)
 );
 
 // /// error handling

@@ -61,11 +61,6 @@ router.delete(
   catchAsync(campgrounds.deleteCampground)
 );
 
-// /// error handling
-// router.use((err, req, res, next) => {
-//   const { statusCode = 500, message = "something went wrong" } = err;
-//   //   res.send("something went wrong");
-//   res.status(statusCode).render("error", { err });
-// });
+
 
 module.exports = router;

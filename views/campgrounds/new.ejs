@@ -2,7 +2,13 @@
 
 <h1 class="text-center">New Camnpground</h1>
 <div class="col-6 offset-3">
-  <form action="/campgrounds" method="POST" novalidate class="validated-form">
+  <form
+    action="/campgrounds"
+    method="POST"
+    novalidate
+    class="validated-form"
+    enctype="multipart/form-data"
+  >
     <div class="mb-2">
       <!-- title -->
       <label class="form-label" for="title">Title</label>
@@ -13,9 +19,7 @@
         name="campground[title]"
         required
       />
-      <div class="valid-feedback">
-        looks good
-      </div>
+      <div class="valid-feedback">looks good</div>
     </div>
     <!-- location -->
     <div class="mb-2">
@@ -27,12 +31,10 @@
         name="campground[location]"
         required
       />
-      <div class="valid-feedback">
-        looks good
-      </div>
+      <div class="valid-feedback">looks good</div>
     </div>
-    <!-- img -->
-    <div class="mb-2">
+
+    <!-- <div class="mb-2">
       <label class="form-label" for="img">img url</label>
       <input
         class="form-control"
@@ -41,10 +43,8 @@
         name="campground[img]"
         required
       />
-      <div class="valid-feedback">
-        looks good
-      </div>
-    </div>
+      <div class="valid-feedback">looks good</div>
+    </div> -->
     <div class="mb-3">
       <label class="form-label" for="price">price</label>
       <div class="input-group mb-3">
@@ -59,9 +59,7 @@
           required
         />
         <span class="input-group-text">.00</span>
-        <div class="valid-feedback">
-          looks good
-        </div>
+        <div class="valid-feedback">looks good</div>
       </div>
     </div>
     <!-- description -->
@@ -74,8 +72,24 @@
         name="campground[description]"
         required
       ></textarea>
-      <div class="valid-feedback">
-        looks good
+      <div class="valid-feedback">looks good</div>
+    </div>
+
+    <div class="mb-3">
+      <div class="form-file custom-file">
+        <input
+          type="file"
+          class="form-file-input"
+          id="image"
+          name="image"
+          multiple
+        />
+        <label class="form-file-label" for="image">
+          <span class="form-file-text custom-file-label"
+            >Choose image(s)...</span
+          >
+          <span class="form-file-button">Browse</span>
+        </label>
       </div>
     </div>
 
@@ -84,5 +98,3 @@
     </div>
   </form>
 </div>
-
-

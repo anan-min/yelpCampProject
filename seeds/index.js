@@ -1,3 +1,4 @@
+const { urlencoded } = require("express");
 const mongoose = require("mongoose");
 const Campground = require("../models/campground");
 const cities = require("./cities");
@@ -35,7 +36,16 @@ function randomCamp() {
   const newCamp = new Campground({
     location: `${randomLocation.city}, ${randomLocation.state}`,
     title: `${sample(descriptors)} ${sample(places)}`,
-    img: "https://source.unsplash.com/collection/483251",
+    images: [
+      {
+        filename: "default-img",
+        url: "https://source.unsplash.com/collection/483251",
+      },
+      {
+        filename: "default-img",
+        url: "https://source.unsplash.com/collection/483251",
+      },
+    ],
     author: "61e634cc37c28063472ed11e",
     description: `  Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam ea iusto,
     laborum odit minus cumque delectus sint similique excepturi optio ullam eius

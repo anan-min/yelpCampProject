@@ -4,8 +4,14 @@
 
 <% for(campground of campgrounds) { %>
 <div class="card mb-3">
-  <div class="col-emd-4">
-    <img src="<%= campground.img %>" alt="" class="img-fluid" />
+  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <% campground.images.forEach((image, i) => { %>
+      <div class="carousel-item <%=i === 0 ? 'active' :'' %>">
+        <img class="d-block w-100" src="<%= image.url %>" alt="First slide" />
+      </div>
+      <% }) %>
+    </div>
   </div>
   <div class="col-mg-8">
     <div class="card-body">
@@ -20,5 +26,4 @@
     </div>
   </div>
 </div>
-
 <% } %>

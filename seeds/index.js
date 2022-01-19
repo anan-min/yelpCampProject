@@ -35,6 +35,10 @@ function randomCamp() {
   const randomPrice = Math.floor(Math.random() * 20) + 10;
   const newCamp = new Campground({
     location: `${randomLocation.city}, ${randomLocation.state}`,
+    geometry: {
+      type: "Point",
+      coordinates: [100.583594, 13.73865],
+    },
     title: `${sample(descriptors)} ${sample(places)}`,
     images: [
       {

@@ -14,7 +14,7 @@ router
   .post(
     isLoggedIn,
     upload.array("image"),
-    validateCampground,
+    // validateCampground,
     campgrounds.createCampground
   );
 

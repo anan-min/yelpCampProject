@@ -13,6 +13,7 @@ const flash = require("connect-flash");
 const campgroundsRoutes = require("./routes/campgrounds");
 const reviewsRoutes = require("./routes/review");
 const userRoutes = require("./routes/user");
+const Campground = require("./models/campground");
 
 // passport
 const passport = require("passport");
@@ -81,8 +82,9 @@ app.use("/campgrounds", campgroundsRoutes);
 app.use("/campgrounds/:id/reviews", reviewsRoutes);
 app.use("/", userRoutes);
 
-app.get("/", (req, res) => {
-  res.render("home");
+app.get("/", async (req, res) => {
+  const campgrounds = await Campground.find({});
+  res.render("home", { campgrounds });
 });
 
 app.all("*", (req, res, next) => {

@@ -1,2 +1,30 @@
 <% layout('layouts/boilerplate')%>
-<h1>Home</h1>
+<main class="px-3 mb-5">
+  <h1>YelpCamp</h1>
+  <p class="lead">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. At earum
+    perspiciatis quod sed amet magnam voluptas quos, laudantium tempora. Dolorem
+    facilis ad iure magnam rerum ducimus cum iusto magni numquam. Cum, quia
+    accusantium? Nemo, minus perferendis veniam illo voluptatem reprehenderit
+    assumenda dolorum qui inventore debitis itaque! Quod rem assumenda cum,
+    veniam sint, fugiat debitis odit odio suscipit pariatur possimus adipisci!
+  </p>
+  <a
+    href="/campgrounds"
+    class="btn btn-lg btn-secondary font-weigth-bold mb-auto"
+    btn-second
+    >View Campgrounds</a
+  >
+  <div
+    class="mt-5"
+    id="map"
+    style="border-radius: 25px; width: 100%; height: 500px"
+  ></div>
+</main>
+
+<script>
+  const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+  const campgrounds = <%- JSON.stringify(campgrounds) %>
+</script>
+
+<script src="/javascripts/clusterMap.js"></script>

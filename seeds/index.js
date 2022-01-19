@@ -24,20 +24,23 @@ db.once("open", () => {
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 const seedDb = async () => {
+  // create 400 campgrounds acorss the us
   await Campground.deleteMany({});
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 400; i++) {
     await randomCamp().save();
   }
+  console.log("databae updated!!!");
 };
 
 function randomCamp() {
   const randomLocation = sample(cities);
   const randomPrice = Math.floor(Math.random() * 20) + 10;
+  const random1000 = Math.floor(Math.random() * 1000);
   const newCamp = new Campground({
     location: `${randomLocation.city}, ${randomLocation.state}`,
     geometry: {
       type: "Point",
-      coordinates: [100.583594, 13.73865],
+      coordinates: [randomLocation.longitude, randomLocation.latitude],
     },
     title: `${sample(descriptors)} ${sample(places)}`,
     images: [

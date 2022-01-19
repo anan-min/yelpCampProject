@@ -23,24 +23,29 @@ ImageSchema.virtual("thumbnail").get(function () {
   return this.url.replace("/upload", "/upload/w_200");
 });
 
-const CampgroundSchema = new Schema({
-  title: String,
-  price: Number,
-  description: String,
-  location: String,
-  geometry: geometrySchema,
-  images: [ImageSchema],
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
-  reviews: [
-    {
+const opts = { toJSON: { virtuals: true } };
+
+const CampgroundSchema = new Schema(
+  {
+    title: String,
+    price: Number,
+    description: String,
+    location: String,
+    geometry: geometrySchema,
+    images: [ImageSchema],
+    author: {
       type: Schema.Types.ObjectId,
-      ref: "Review",
+      ref: "User",
     },
-  ],
-});
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+  },
+  opts
+);
 
 CampgroundSchema.post("findOneAndDelete", async function (doc) {
   if (doc) {
@@ -50,6 +55,23 @@ CampgroundSchema.post("findOneAndDelete", async function (doc) {
       },
     });
   }
+});
+
+CampgroundSchema.virtual("cluster").get(function () {
+  return {
+    properties: {
+      title: this.title,
+      price: this.price,
+      location: this.location,
+      popup: `
+      <strong>
+        <a href="/campgrounds/${this._id}">${this.title}</a>
+      </strong>
+      <p>${this.description.substring(0, 30)}...</p>
+      `,
+    },
+    geometry: this.geometry,
+  };
 });
 
 // Campground -> campgrounds

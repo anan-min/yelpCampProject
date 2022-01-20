@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 // console.log(process.env);
@@ -14,6 +13,7 @@ const campgroundsRoutes = require("./routes/campgrounds");
 const reviewsRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
 const Campground = require("./models/campground");
+const helmet = require("helmet");
 
 // passport
 const passport = require("passport");
@@ -47,9 +47,11 @@ const sessionConfig = {
   },
 };
 
+
+const { securityPolicy } = require("./public/security");
 app.use(session(sessionConfig));
 app.use(flash());
-
+app.use(helmet.contentSecurityPolicy(securityPolicy));
 /**
  * passport
  * - sessoin should come before passport.sesion
@@ -68,8 +70,6 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
-
-
 
 app.use("/campgrounds", campgroundsRoutes);
 app.use("/campgrounds/:id/reviews", reviewsRoutes);

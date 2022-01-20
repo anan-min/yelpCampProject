@@ -1,5 +1,3 @@
-console.log(campgrounds[0]);
-
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
   container: "cluster-map",

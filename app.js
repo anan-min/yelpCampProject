@@ -11,8 +11,8 @@ const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
 const flash = require("connect-flash");
 const campgroundsRoutes = require("./routes/campgrounds");
-const reviewsRoutes = require("./routes/review");
-const userRoutes = require("./routes/user");
+const reviewsRoutes = require("./routes/reviews");
+const userRoutes = require("./routes/users");
 const Campground = require("./models/campground");
 
 // passport

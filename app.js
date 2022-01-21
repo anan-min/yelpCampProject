@@ -1,4 +1,6 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 // console.log(process.env);
 const express = require("express");
@@ -14,13 +16,15 @@ const reviewsRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
 const Campground = require("./models/campground");
 const helmet = require("helmet");
+const MongoDBStore = require("connect-mongo");
 
 // passport
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
-
-mongoose.connect("mongodb://localhost:27017/yelp-camp");
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
+const secret = process.env.SECRET || "default secret";
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", () => {
@@ -37,6 +41,11 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 const sessionConfig = {
+  store: MongoDBStore.create({
+    mongoUrl: dbUrl,
+    secret: "secret",
+    touchAfter: 24 * 60 * 60,
+  }),
   secret: "thisshouldbeabettersecret",
   resave: false,
   saveUninitialized: true,
@@ -46,7 +55,6 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
-
 
 const { securityPolicy } = require("./public/security");
 app.use(session(sessionConfig));

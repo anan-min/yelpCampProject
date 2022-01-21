@@ -26,7 +26,6 @@ const connectSrcUrls = [
 
 const fontSrcUrls = [];
 
-
 module.exports.securityPolicy = {
   directives: {
     defaultSrc: [],

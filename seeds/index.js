@@ -3,8 +3,12 @@ const mongoose = require("mongoose");
 const Campground = require("../models/campground");
 const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
-
-mongoose.connect("mongodb://localhost:27017/yelp-camp");
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+const dbUrl = process.env.DB_URL;
+mongoose.connect(dbUrl);
+// mongoose.connect("mongodb://localhost:27017/yelp-camp");
 const numberOfCities = 1035;
 const numberOfNames = 18;
 
